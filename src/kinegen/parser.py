@@ -19,7 +19,6 @@ def load_robot_json(filepath):
             j["limits"]
         )
 
-        # IMPORTANT STEP: compute twist from geometry
         joint.twist = compute_twist(joint.axis, joint.point)
 
         joints.append(joint)
@@ -31,7 +30,6 @@ def load_robot_json(filepath):
         data["frame"]
     )
 
-    # validation AFTER full construction
     validate_robot(robot)
 
     return robot

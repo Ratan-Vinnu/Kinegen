@@ -1,4 +1,3 @@
-# valid.py
 import numpy as np
 
 
@@ -14,9 +13,7 @@ def is_zero_vector(v, tol=1e-8):
 
 
 def is_valid_se3(M, tol=1e-3):
-    """
-    Check if M ∈ SE(3)
-    """
+    
     M = np.array(M, dtype=float)
 
     if M.shape != (4, 4):
@@ -26,14 +23,11 @@ def is_valid_se3(M, tol=1e-3):
     p = M[:3, 3]
     last_row = M[3, :]
 
-    # rotation validity
     should_be_identity = R.T @ R
     rot_ok = np.allclose(should_be_identity, np.eye(3), atol=tol)
 
-    # determinant check (proper rotation)
     det_ok = np.isclose(np.linalg.det(R), 1.0, atol=tol)
 
-    # last row check
     last_row_ok = np.allclose(last_row, [0, 0, 0, 1], atol=tol)
 
     return rot_ok and det_ok and last_row_ok
@@ -90,7 +84,6 @@ def validate_robot(robot):
     if not is_valid_se3(robot.M):
         raise ValueError("Invalid SE(3) matrix M")
 
-    # validate each joint
     for j in robot.joints:
         validate_joint(j)
 
